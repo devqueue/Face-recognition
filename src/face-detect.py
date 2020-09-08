@@ -6,9 +6,8 @@ import os
 from datetime import datetime
 
 face_cascade = cv2.CascadeClassifier('Cascades/haarcascade_frontalface_alt2.xml')
-
-
 recognizer = cv2.face.LBPHFaceRecognizer_create()
+
 recognizer.read("./recognizer/face-trainner.yml")
 
 
@@ -24,7 +23,8 @@ def markattendance(name):
             date = now.strftime('%b %d %Y')
             day = now.strftime('%a')
             time = now.strftime('%H:%M:%S')
-            f.writelines(f'\n{name}, {date}, {time}, {day}')
+            f.writelines(f'\n{name}, {date}, {time}, {day}')            
+
 
 
 labels = {"person_name": 1}
