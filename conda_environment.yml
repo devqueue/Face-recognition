@@ -33,5 +33,5 @@ dependencies:
     - pillow==7.2.0
     - six==1.15.0
     - toml==0.10.1
-prefix: /home/smokedpirate/.conda/envs/FaceRec
+prefix: /home/<user>/.conda/envs/FaceRec
 
