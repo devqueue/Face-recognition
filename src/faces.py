@@ -31,7 +31,9 @@ while(True):
             name = labels[id_]
             color = (255, 255, 255)
             stroke = 2
+            cv2.rectangle(frame, (x, y-35), (x, y), (0, 255, 0), cv2.FILLED)
             cv2.putText(frame, name, (x, y), font, 1, color, stroke, cv2.FILLED)
+            
             #img_item = "7.png"
             #cv2.imwrite(img_item, roi_color)
 
@@ -44,7 +46,7 @@ while(True):
     	#for (ex,ey,ew,eh) in subitems:
     	#	cv2.rectangle(roi_color,(ex,ey),(ex+ew,ey+eh),(0,255,0),2)
     # Display the resulting frame
-    cv2.imshow('frame', frame)
+    cv2.imshow('Face-detector', frame)
     if cv2.waitKey(20) & 0xFF == ord('q'):
         break
 
