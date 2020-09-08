@@ -5,8 +5,8 @@ import face_recognition
 import os
 from datetime import datetime
 
-face_cascade = cv2.CascadeClassifier(
-    'Cascades/haarcascade_frontalface_alt2.xml')
+face_cascade = cv2.CascadeClassifier('Cascades/haarcascade_frontalface_alt2.xml')
+
 
 recognizer = cv2.face.LBPHFaceRecognizer_create()
 recognizer.read("./recognizer/face-trainner.yml")
