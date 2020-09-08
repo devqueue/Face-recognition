@@ -3,16 +3,21 @@ import numpy as np
 import face_recognition
 import os
 from datetime import datetime
-path = 'Faces'
+
+face_cascade = cv2.CascadeClassifier('Cascades/haarcascade_frontalface_alt2.xml')
+
+path = 'faces'
 images = []
 classNames = []
 mylist =  os.listdir(path)
 print(mylist)
+
 for cl in mylist:
     currentImg = cv2.imread(f'{path}/{cl}')
     images.append(currentImg)
     classNames.append(os.path.splitext(cl)[0])
 print(classNames)
+
 
 def findencodings(images):
     encodelist = []
@@ -22,6 +27,61 @@ def findencodings(images):
         encodelist.append(encode)
     return encodelist
 
+
+encodelistknown = findencodings(images)
+print(len(encodelistknown))
+print("encoding complete")
+
+
+cap = cv2.VideoCapture(0)
+
+while True:
+    success, img = cap.read()
+    gray = cv2.cvtColor(img, cv2.COLOR_BGR2GRAY)
+    faces = face_cascade.detectMultiScale(gray, scaleFactor=1.5, minNeighbors=5)
+    imgS = cv2.resize(img, (0, 0), None, 0.25, 0.25)
+    imgS = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    for (x, y, w, h) in faces:
+        roi_gray = gray[y:y+h, x:x+w]  # (ycord_start, ycord_end)
+        roi_color = img[y:y+h, x:x+w]
+
+
+    faceCurFrame = face_recognition.face_locations(imgS)
+
+    encodesCurFrame = face_recognition.face_encodings(imgS, faceCurFrame)
+
+    for encodeFace, faceLoc in zip(encodesCurFrame, faceCurFrame):
+        matches = face_recognition.compare_faces(encodelistknown, encodeFace)
+        faceDis = face_recognition.face_distance(encodelistknown, encodeFace)
+        print(faceDis)
+        matchIndex = np.argmin(faceDis)
+
+        if matches[matchIndex]:
+            name = classNames[matchIndex].upper()
+            print(name)
+            y1, x2, y2, x1 = faceLoc
+            y1, x2, y2, x1 = faceLoc
+            y1, x2, y2, x1 = y1*4, x2*4, y2*4, x1*4
+        cv2.rectangle(img, (x1, y1), (x2, y2), (0, 255, 0), 2)
+        cv2.rectangle(img, (x1, y2-35), (x2, y2), (0, 255, 0), cv2.FILLED)
+        cv2.putText(img, name, (x1+6, y2-6),
+                    cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 2)
+
+        # color = (255, 0, 0)  # BGR 0-255
+        # stroke = 2
+        # end_cord_x = x + w
+        # end_cord_y = y + h
+        # cv2.rectangle(frame, (x, y), (end_cord_x, end_cord_y), color, stroke)
+
+    cv2.imshow('Face-Detector', img)
+    if cv2.waitKey(20) & 0xFF == ord('q'):
+        break
+
+cap.release()
+cv2.destroyAllWindows()
+
+
+'''
 def markattendance(name):
     with open('attendance.csv', 'r+') as f:
         dataList = f.readlines()
@@ -32,7 +92,7 @@ def markattendance(name):
         if name not in nameList:
             now = datetime.now()
             dtstring = now.strftime('%H:%M:%S')
-            f.writelines(f'\n{name},{dtstring}')
+            f.writelines(f'\\n{name},{dtstring}')
 
 encodelistknown = findencodings(images)
 print("Encoding completed")
@@ -41,12 +101,12 @@ cap = cv2.VideoCapture(0)
 
 while True:
     success, img = cap.read()
-    img5 = cv2.resize(img,(0,0), None, 0.25, 0.25)
-    img5 = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
+    imgS = cv2.resize(img,(0,0), None, 0.25, 0.25)
+    imgS = cv2.cvtColor(img, cv2.COLOR_BGR2RGB)
     
-    faceCurFrame = face_recognition.face_locations(img5)
+    faceCurFrame = face_recognition.face_locations(imgS)
 
-    encodesCurFrame = face_recognition.face_encodings(img5,faceCurFrame)
+    encodesCurFrame = face_recognition.face_encodings(imgS,faceCurFrame)
 
     for encodeFace,faceLoc in zip(encodesCurFrame, faceCurFrame):
         matches = face_recognition.compare_faces(encodelistknown, encodeFace)
@@ -61,8 +121,7 @@ while True:
             y1, x2, y2, x1 = y1*4, x2*4, y2*4, x1*4
             cv2.rectangle(img,(x1,y1),(x2,y2),(0,255,0),2)
             cv2.rectangle(img,(x1,y2-35), (x2,y2), (0,255,0), cv2.FILLED)
-            cv2.putText(img, 
-                        name, (x1+6, y2-6), 
+            cv2.putText(img, name, (x1+6, y2-6), 
                         cv2.FONT_HERSHEY_COMPLEX, 1, (255, 255, 255), 2)
             markattendance('haziq')
 
@@ -73,7 +132,7 @@ while True:
 
 
 
-'''
+
 imghaziq = face_recognition.load_image_file('Faces/haziq.jpg')
 imghaziq = cv2.cvtColor(imghaziq, cv2.COLOR_BGR2RGB)
 imgTest = face_recognition.load_image_file('Faces/test.jpg')

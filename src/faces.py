@@ -31,7 +31,7 @@ while(True):
             name = labels[id_]
             color = (255, 255, 255)
             stroke = 2
-            cv2.putText(frame, name, (x, y), font, 1, color, stroke, cv2.LINE_AA)
+            cv2.putText(frame, name, (x, y), font, 1, color, stroke, cv2.FILLED)
             #img_item = "7.png"
             #cv2.imwrite(img_item, roi_color)
 
