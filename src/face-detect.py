@@ -13,7 +13,7 @@ recognizer.read("./recognizer/face-trainner.yml")
 
 
 def markattendance(name):
-    with open('attendance.csv', 'r+') as f:
+    with open('Attendance.csv', 'r+') as f:
         dataList = f.readlines()
         nameList = []
         for line in dataList:
