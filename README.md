@@ -27,4 +27,4 @@ Note: Everytime you add a new face you'll have to run this file again
 
 ## Final Recognition
 Now you can run the `face-detect.py`. The script will recognize your face and add a time stamp
-in `Attandance.csv`
+in `Attendance.csv`
