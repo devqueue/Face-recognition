@@ -52,9 +52,9 @@ while(True):
             name = labels[id_]
             color = (255, 255, 255)
             stroke = 2
-            #cv2.putText(frame, name, (x, y), font,1, color, stroke, cv2.FILLED)
-            cv2.putText(frame, name, (h - 20, w + 15),
-                        font, 1.0, (255, 255, 255), 2)
+            #cv2.rectangle(frame, (x+45, y+35), (x, y), (0, 255, 0), cv2.FILLED)
+            cv2.putText(frame, name, (x, y), font,
+                        1, color, stroke, cv2.FILLED)
             markattendance(name)
 
             #img_item = "7.png"
@@ -76,3 +76,4 @@ while(True):
 # When everything done, release the capture
 cap.release()
 cv2.destroyAllWindows()
+
