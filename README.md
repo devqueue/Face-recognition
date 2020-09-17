@@ -40,6 +40,4 @@ in `Attendance.csv`
 
 You can also run Face-detector in Gitpod, a free online dev environment for GitHub:
 
-If you're intersted in a paid subscription with GitPod use the coupon code:
-
 [![Open in Gitpod](https://gitpod.io/button/open-in-gitpod.svg)](https://gitpod.io/#https://github.com/smokedpirate/Face-recognition/blob/master/src/face-detect.py)
