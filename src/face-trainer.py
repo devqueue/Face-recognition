@@ -40,9 +40,8 @@ for root, dirs, files in os.walk(image_dir):
 				x_train.append(roi)
 				y_labels.append(id_)
 
-
-# print(y_labels)
-# print(x_train)
+print(y_labels)
+print(x_train)
 
 with open("pickles/face-labels.pickle", 'wb') as f:
 	pickle.dump(label_ids, f)
