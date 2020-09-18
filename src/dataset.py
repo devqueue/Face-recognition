@@ -8,7 +8,7 @@ count = 0
 cap = cv2.VideoCapture(0)
 
 def face_ext(img):
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+    gray = frame
     faces = face_cascade.detectMultiScale(gray, scaleFactor=1.5, minNeighbors=5)
 
     if faces is():
@@ -25,7 +25,7 @@ while True:
     re, frame = cap.read()
     if face_ext(frame) is not None:
         count+=1
-        face = cv2.resize(face_ext(frame), (550,550))
+        face = cv2.resize(face_ext(frame), (650,650))
         face = cv2.cvtColor(face, cv2.COLOR_BGR2GRAY)
         path = os.path.join('images/', f'{name}')
         file_path = os.path.join(path ,str(count) + '.jpg')
