@@ -59,7 +59,7 @@ while(True):
             #img_item = "7.png"
             #cv2.imwrite(img_item, roi_color)
 
-        color = (255, 0, 0)  # BGR 0-255
+        color = (0, 255, 0)  # BGR 0-255
         stroke = 2
         end_cord_x = x + w
         end_cord_y = y + h
