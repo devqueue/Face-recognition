@@ -25,7 +25,7 @@ while True:
     re, frame = cap.read()
     if face_ext(frame) is not None:
         count+=1
-        face = cv2.resize(face_ext(frame), (200,200))
+        face = cv2.resize(face_ext(frame), (550,550))
         face = cv2.cvtColor(face, cv2.COLOR_BGR2GRAY)
         path = os.path.join('images/', f'{name}')
         file_path = os.path.join(path ,str(count) + '.jpg')
