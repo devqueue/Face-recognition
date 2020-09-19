@@ -1,11 +1,14 @@
 import cv2
-import numpy
 import os
 
 face_cascade = cv2.CascadeClassifier('Cascades/haarcascade_frontalface_alt2.xml')
 name = input("Enter your name: ")
 count = 0
 cap = cv2.VideoCapture(0)
+k = cv2.waitKey(100) & 0xff
+
+print("\n [INFO] Initializing face capture. Look the camera and wait ...")
+
 
 def face_ext(img):
     gray = frame
@@ -41,9 +44,9 @@ while True:
     else:
         pass
 
-    if cv2.waitKey(1) == 13 or count==10:
+    if k == 27 or count==10:
         break
-
+print("\n [INFO] Exiting Program and cleanup stuff")
 cap.release()
 cv2.destroyAllWindows()
 print("Dataset Collection Completed")
