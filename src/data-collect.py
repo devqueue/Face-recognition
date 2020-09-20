@@ -3,6 +3,7 @@ import os
 
 face_cascade = cv2.CascadeClassifier('Cascades/haarcascade_frontalface_alt2.xml')
 name = input("Enter your name: ")
+pics = input("No. of images: ")
 count = 0
 cap = cv2.VideoCapture(0)
 k = cv2.waitKey(100) & 0xff
@@ -44,7 +45,7 @@ while True:
     else:
         pass
 
-    if k == 27 or count==10:
+    if k == 27 or count==pics:
         break
 print("\n [INFO] Exiting Program and cleanup stuff")
 cap.release()
