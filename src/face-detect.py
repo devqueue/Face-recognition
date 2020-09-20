@@ -10,7 +10,6 @@ recognizer = cv2.face.LBPHFaceRecognizer_create()
 
 recognizer.read("./recognizer/face-trainner.yml")
 
-
 def markattendance(name):
     with open('Attendance.csv', 'r+') as f:
         dataList = f.readlines()
@@ -26,7 +25,6 @@ def markattendance(name):
             f.writelines(f'\n{name}, {date}, {time}, {day}')            
 
 
-
 labels = {"person_name": 1}
 with open("pickles/face-labels.pickle", 'rb') as f:
 	og_labels = pickle.load(f)
@@ -39,31 +37,32 @@ while(True):
     # Capture frame-by-frame
     ret, frame = cap.read()
     gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    faces = face_cascade.detectMultiScale(
-    	gray, scaleFactor=1.5, minNeighbors=5)
+    faces = face_cascade.detectMultiScale(gray, scaleFactor=1.5, minNeighbors=5)
     for (x, y, w, h) in faces:
         roi_gray = gray[y:y+h, x:x+w]  # (ycord_start, ycord_end)
         roi_color = frame[y:y+h, x:x+w]
+        print(w, h)
 
     	# recognize
         id_, conf = recognizer.predict(roi_gray)
         if conf >= 4 and conf <= 85:
             font = cv2.FONT_HERSHEY_SIMPLEX
             name = labels[id_]
-            color = (255, 255, 255)
+            colortext = (255, 255, 255)
+            colorframe = (255, 0, 0)
             stroke = 2
-            #cv2.rectangle(frame, (x+45, y+35), (x, y), (0, 255, 0), cv2.FILLED)
-            cv2.putText(frame, name, (x, y), font,1, color, stroke, cv2.FILLED)
+            bestscale = font_scale(name, w)
+            #print(bestscale)
+            cv2.rectangle(frame, (x, y), (x + w, y + h),colorframe, stroke)
+            cv2.rectangle(frame, (x, y+h), (x+w, y+h+20),colorframe, stroke)
+            cv2.rectangle(frame, (x, y+h), (x+w, y+h+20),colorframe, cv2.FILLED)
+            cv2.putText(frame, name, (x, y+h+20),font, 0.70, colortext, stroke)
             markattendance(name)
 
             #img_item = "7.png"
             #cv2.imwrite(img_item, roi_color)
 
-        color = (0, 255, 0)  # BGR 0-255
-        stroke = 2
-        end_cord_x = x + w
-        end_cord_y = y + h
-        cv2.rectangle(frame, (x, y), (end_cord_x, end_cord_y), color, stroke)
+            
     	#subitems = smile_cascade.detectMultiScale(roi_gray)
     	#for (ex,ey,ew,eh) in subitems:
     	#	cv2.rectangle(roi_color,(ex,ey),(ex+ew,ey+eh),(0,255,0),2)
