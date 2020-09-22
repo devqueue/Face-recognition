@@ -51,7 +51,7 @@ while(True):
             colortext = (255, 255, 255)
             colorframe = (255, 0, 0)
             stroke = 2
-            bestscale = font_scale(name, w)
+            #bestscale = font_scale(name, w)
             #print(bestscale)
             cv2.rectangle(frame, (x, y), (x + w, y + h),colorframe, stroke)
             cv2.rectangle(frame, (x, y+h), (x+w, y+h+20),colorframe, stroke)
