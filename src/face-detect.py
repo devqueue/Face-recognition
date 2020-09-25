@@ -41,7 +41,7 @@ while(True):
     for (x, y, w, h) in faces:
         roi_gray = gray[y:y+h, x:x+w]  # (ycord_start, ycord_end)
         roi_color = frame[y:y+h, x:x+w]
-        print(w, h)
+        #print(w, h)
 
     	# recognize
         id_, conf = recognizer.predict(roi_gray)
