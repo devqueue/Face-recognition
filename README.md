@@ -5,6 +5,8 @@ I used open-cv and face-recognition libraries. The faces must be saved in indivi
 in `src/images`. There must be atleast 8-10 images for each face with clear features.
 Follow the steps below to get started.
 
+Note: Before following along you must have a c/c++ compiler on your system if you use windows use visual studio to install C++ compiler
+
 ## How to Install dependencies?
 
 #### Using anaconda environment.yml (linux only)
