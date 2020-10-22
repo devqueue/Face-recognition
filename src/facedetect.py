@@ -4,73 +4,69 @@ import pickle
 import os
 from datetime import datetime
 
-face_cascade = cv2.CascadeClassifier('Cascades/haarcascade_frontalface_alt2.xml')
-recognizer = cv2.face.LBPHFaceRecognizer_create()
 
-recognizer.read("./recognizer/face-trainner.yml")
+def Facedetect():
+    face_cascade = cv2.CascadeClassifier('Cascades/haarcascade_frontalface_alt2.xml')
+    recognizer = cv2.face.LBPHFaceRecognizer_create()
 
-def markattendance(name):
-    with open('Attendance.csv', 'r+') as f:
-        dataList = f.readlines()
-        nameList = []
-        for line in dataList:
-            entry = line.split(',')
-            nameList.append(entry[0])
-        if name not in nameList:
-            now = datetime.now()
-            date = now.strftime('%b %d %Y')
-            day = now.strftime('%a')
-            time = now.strftime('%H:%M:%S')
-            f.writelines(f'\n{name}, {date}, {time}, {day}')            
+    recognizer.read("./recognizer/face-trainner.yml")
 
-
-labels = {"person_name": 1}
-with open("pickles/face-labels.pickle", 'rb') as f:
-	og_labels = pickle.load(f)
-	labels = {v: k for k, v in og_labels.items()}
+    def markattendance(name):
+        with open('Attendance.csv', 'r+') as f:
+            dataList = f.readlines()
+            nameList = []
+            for line in dataList:
+                entry = line.split(',')
+                nameList.append(entry[0])
+            if name not in nameList:
+                now = datetime.now()
+                date = now.strftime('%b %d %Y')
+                day = now.strftime('%a')
+                time = now.strftime('%H:%M:%S')
+                f.writelines(f'\n{name}, {date}, {time}, {day}')            
 
 
-cap = cv2.VideoCapture(0)
+    labels = {"person_name": 1}
+    with open("pickles/face-labels.pickle", 'rb') as f:
+        og_labels = pickle.load(f)
+        labels = {v: k for k, v in og_labels.items()}
 
-while(True):
-    # Capture frame-by-frame
-    ret, frame = cap.read()
-    gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
-    faces = face_cascade.detectMultiScale(gray, scaleFactor=1.5, minNeighbors=5)
-    for (x, y, w, h) in faces:
-        roi_gray = gray[y:y+h, x:x+w]  # (ycord_start, ycord_end)
-        roi_color = frame[y:y+h, x:x+w]
-        #print(w, h)
 
-    	# recognize
-        id_, conf = recognizer.predict(roi_gray)
-        if conf >= 4 and conf <= 85:
-            font = cv2.FONT_HERSHEY_SIMPLEX
-            name = labels[id_]
-            colortext = (255, 255, 255)
-            colorframe = (255, 0, 0)
-            stroke = 2
-            #bestscale = font_scale(name, w)
-            #print(bestscale)
-            cv2.rectangle(frame, (x, y), (x + w, y + h),colorframe, stroke)
-            cv2.rectangle(frame, (x, y+h), (x+w, y+h+20),colorframe, stroke)
-            cv2.rectangle(frame, (x, y+h), (x+w, y+h+20),colorframe, cv2.FILLED)
-            cv2.putText(frame, name, (x, y+h+20),font, 0.70, colortext, stroke)
-            markattendance(name)
+    cap = cv2.VideoCapture(0)
 
-            #img_item = "7.png"
-            #cv2.imwrite(img_item, roi_color)
+    while(True):
+        # Capture frame-by-frame
+        _ret, frame = cap.read()
+        gray = cv2.cvtColor(frame, cv2.COLOR_BGR2GRAY)
+        faces = face_cascade.detectMultiScale(gray, scaleFactor=1.5, minNeighbors=5)
+        for (x, y, w, h) in faces:
+            roi_gray = gray[y:y+h, x:x+w]  # (ycord_start, ycord_end)
+            _roi_color = frame[y:y+h, x:x+w]
+            #print(w, h)
 
-            
-    	#subitems = smile_cascade.detectMultiScale(roi_gray)
-    	#for (ex,ey,ew,eh) in subitems:
-    	#	cv2.rectangle(roi_color,(ex,ey),(ex+ew,ey+eh),(0,255,0),2)
-    # Display the resulting frame
-    cv2.imshow('Face-detector', frame)
-    if cv2.waitKey(20) & 0xFF == ord('q'):
-        break
+            # recognize
+            id_, conf = recognizer.predict(roi_gray)
+            if conf >= 4 and conf <= 85:
+                font = cv2.FONT_HERSHEY_SIMPLEX
+                name = labels[id_]
+                colortext = (255, 255, 255)
+                colorframe = (255, 0, 0)
+                stroke = 2
+                cv2.rectangle(frame, (x, y), (x + w, y + h),colorframe, stroke)
+                cv2.rectangle(frame, (x, y+h), (x+w, y+h+20),colorframe, stroke)
+                cv2.rectangle(frame, (x, y+h), (x+w, y+h+20),colorframe, cv2.FILLED)
+                cv2.putText(frame, name, (x, y+h+20),font, 0.70, colortext, stroke)
+                markattendance(name)
 
-# When everything done, release the capture
-cap.release()
-cv2.destroyAllWindows()
+                #img_item = "7.png"
+                #cv2.imwrite(img_item, _roi_color)
+
+        # Display the resulting frame
+        cv2.imshow('Face-detector', frame)
+        if cv2.waitKey(20) & 0xFF == ord('q'):
+            break
+
+    # When everything done, release the capture
+    cap.release()
+    cv2.destroyAllWindows()
 
