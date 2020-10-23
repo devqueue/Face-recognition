@@ -11,7 +11,8 @@ def get_random_string(length):
 
 def Photocambw():
     cam = cv2.VideoCapture(0)
-    face_cascade = cv2.CascadeClassifier('Cascades/haarcascade_frontalface_alt2.xml')
+    face_cascade = cv2.CascadeClassifier(
+        'Cascades/haarcascade_frontalface_default.xml')
     name = input("Enter your name: ")
     pics = int(input("No. of images: "))
     suffix = get_random_string()
