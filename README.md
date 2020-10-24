@@ -2,7 +2,7 @@
 
 This is a project that recognizes your face using webcam and adds your attandance to a csv file
 I used open-cv and face-recognition libraries. The faces must be saved in individual directories
-in `src/images`. There must be atleast 8-10 images for each face with clear features.
+in `src/images`. There must be atleast 50 images for each face with clear features.
 Follow the steps below to get started.
 
 
