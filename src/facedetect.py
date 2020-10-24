@@ -70,3 +70,4 @@ def Facedetect():
     cap.release()
     cv2.destroyAllWindows()
 
+Facedetect()

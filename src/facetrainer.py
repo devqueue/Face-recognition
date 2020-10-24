@@ -8,7 +8,6 @@ import pickle
 def Facetrainer():
 	BASE_DIR = os.path.dirname(os.path.abspath(__file__))
 	image_dir = os.path.join(BASE_DIR, "images")
-
 	face_cascade = cv2.CascadeClassifier('Cascades/haarcascade_frontalface_alt2.xml')
 	recognizer = cv2.face.LBPHFaceRecognizer_create()
 
@@ -51,3 +50,5 @@ def Facetrainer():
 	recognizer.train(x_train, np.array(y_labels))
 	recognizer.save("recognizer/face-trainner.yml")
 	print("Training completed")
+
+Facetrainer()
